@@ -85,7 +85,7 @@ export const UpdateTableController = (req, res) => {
   /* Turn the request into an insert statement */
   let insert_query = 'INSERT INTO '+connection.escapeId(table_id)+' (item_no, item_desc, item_qty, item_price, item_rate, item_unit) VALUES '
   request_data.forEach((data, index) => {
-    insert_query += `('${data.item_no}', '${data.item_desc}', '${data.item_qty}', '${data.item_price}', '${data.item_rate}', '${data.item_unit}')`
+    insert_query += `('${data.item_no}', '${data.item_desc.split("'").join(" ")}', '${data.item_qty}', '${data.item_price}', '${data.item_rate}', '${data.item_unit}')`
     if (index+1 !== request_data.length) insert_query += ', '
   })
 
@@ -95,6 +95,7 @@ export const UpdateTableController = (req, res) => {
   })
 }
 
+/* Copy id value into key */
 function formatter (results:any[]):IData[] {
   var res_ = [...results]
   for (var i in res_) {
